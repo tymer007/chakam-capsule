@@ -1,6 +1,15 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { TwitterTweetEmbed } from "react-twitter-embed";
+
+declare global {
+  interface Window {
+    twttr?: {
+      widgets: {
+        load: (element?: HTMLElement) => void;
+      };
+    };
+  }
+}
 
 export default function TweetCarousel() {
   const [tweetIds, setTweetIds] = useState<string[]>([]);
@@ -24,6 +33,24 @@ export default function TweetCarousel() {
     fetchTweetIds();
   }, []);
 
+  // Load Twitter script
+  useEffect(() => {
+    if (typeof window === "undefined" || tweetIds.length === 0) return;
+
+    const scriptId = "twitter-widgets-script";
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "https://platform.twitter.com/widgets.js";
+      script.async = true;
+      document.body.appendChild(script);
+    } else {
+      // Re-render widgets if script already present
+      window.twttr?.widgets?.load();
+    }
+  }, [tweetIds]);
+
+  // Auto-scroll carousel
   useEffect(() => {
     if (tweetIds.length === 0) return;
 
@@ -49,14 +76,12 @@ export default function TweetCarousel() {
   return (
     <>
       <style>{`
-        /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar {
           display: none;
         }
-        /* Hide scrollbar for IE, Edge and Firefox */
         .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
 
@@ -68,7 +93,7 @@ export default function TweetCarousel() {
         <div
           ref={containerRef}
           className="no-scrollbar w-full max-w-7xl overflow-x-auto flex items-center whitespace-nowrap scroll-smooth"
-          style={{ scrollSnapType: "x mandatory", height: "600px" }} // adjust height as needed
+          style={{ scrollSnapType: "x mandatory", height: "600px" }}
         >
           {tweetIds.map((id) => (
             <div
@@ -76,7 +101,13 @@ export default function TweetCarousel() {
               className="inline-block px-4"
               style={{ scrollSnapAlign: "start", minWidth: "320px" }}
             >
-              <TwitterTweetEmbed tweetId={id} />
+              <blockquote
+                className="twitter-tweet"
+                data-theme="light"
+                data-width="320"
+              >
+                <a href={`https://twitter.com/x/status/${id}`} />
+              </blockquote>
             </div>
           ))}
         </div>
