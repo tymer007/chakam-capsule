@@ -87,7 +87,7 @@ export default function TweetCarousel() {
 
       <div className="flex flex-col items-center gap-8 mb-2">
         <h2 className="text-4xl font-bold text-start w-full max-w-7xl px-4">
-          Popular 'Chakam' Tweets
+          Popular Chakam Tweets
         </h2>
 
         <div
