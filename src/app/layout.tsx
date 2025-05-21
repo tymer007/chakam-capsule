@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next";
 
 export const viewport = {
   width: 'device-width',
@@ -25,12 +26,12 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     type: "article",
-    url: "https://chakam.vercel.app",
+    url: "https://chakam-capsule.vercel.app",
     title: "Chakam Capsule",
     description: "A platform that allows people to save their photos in a capsule",
     images: [
       {
-        url: "https://www.chakam.vercel.app/banner.jpeg",
+        url: "https://chakam-capsule.vercel.app/banner.jpeg",
         width: 1200,
         height: 630,
         alt: "A platform that allows people to save their photos in a capsule",
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     site: "@chakam_capsule",
     title: "Chakam Capsule",
     description: "A platform that allows people to save their photos in a capsule",
-    images: ["https://www.chakam.vercel.app/banner.jpeg"],
+    images: ["https://chakam-capsule.vercel.app/banner.jpeg"],
   },
 };
 
@@ -57,6 +58,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeProvider attribute="class">{children}</ThemeProvider>
       </body>
+      <Analytics/>
     </html>
   );
 }
