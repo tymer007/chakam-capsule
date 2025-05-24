@@ -12,7 +12,8 @@ import {
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import TweetCarousel from "./components/TweetCarousel";
+import TweetCarousel from "../components/TweetCarousel";
+import { SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -22,7 +23,7 @@ export default function Home() {
       <header className="max-w-7xl mx-auto flex justify-between items-center py-4">
         <div className="font-bold text-2xl font-vest text-primary">Chakam</div>
         <div className="flex gap-4">
-          <button className="text-white">Login</button>
+          <SignInButton component="button">Login</SignInButton>
           <button className="bg-primary text-white px-4 py-2 rounded-md">
             Register
           </button>
