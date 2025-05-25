@@ -3,12 +3,12 @@ import { initializeApp } from "firebase/app";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC0npvRwLWwG-TcMHQVekfMQutCzDNXUpA",
-  authDomain: "giftedchatapp-fde9c.firebaseapp.com",
-  projectId: "giftedchatapp-fde9c",
-  storageBucket: "giftedchatapp-fde9c.appspot.com",
-  messagingSenderId: "909302892900",
-  appId: "1:909302892900:web:e7ee34f7a223d2c8739271"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId:process.env.APP_ID
 };
 
 // Initialize Firebase

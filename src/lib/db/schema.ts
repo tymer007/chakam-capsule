@@ -1,7 +1,4 @@
-import { create } from "domain";
-import { integer, pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
-import { url } from "inspector";
-import { use } from "react";
+import {  pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
 
 export const userToMemes = pgTable("user_to_memes", {
   id: varchar('id', { length: 256 }).primaryKey(),
