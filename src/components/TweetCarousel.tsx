@@ -84,11 +84,11 @@ export default function TweetCarousel() {
           scrollbar-width: none;
         }
       `}</style>
-
+      <h2 className="text-2xl md:text-4xl font-bold text-center w-full px-4">
+        Popular Chakam Tweets
+      </h2>
       <div className="flex flex-col items-center gap-8 mb-2">
-        <h2 className="text-4xl font-bold text-start w-full max-w-7xl px-4">
-          Popular Chakam Tweets
-        </h2>
+       
 
         <div
           ref={containerRef}

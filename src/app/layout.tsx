@@ -3,6 +3,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from 'react-hot-toast';
+import {
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import QueryProvider from "@/components/Providers/queryProvider";
+
 
 export const viewport = {
   width: 'device-width',
@@ -53,12 +60,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head></head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider attribute="class">{children}</ThemeProvider>
-      </body>
-      <Analytics/>
-    </html>
+    <ClerkProvider>
+    {/* <ThemeProvider attribute="class"> */}
+        <html lang="en">
+        <head>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+
+          </ThemeProvider>
+        </head>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+          <Toaster/>
+        </body>
+        <Analytics/>
+      </html>
+
+    {/* </ThemeProvider> */}
+
+    </ClerkProvider>
+   
   );
 }
