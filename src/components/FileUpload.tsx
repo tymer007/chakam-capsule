@@ -9,9 +9,8 @@ import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { DrizzleMeme } from '@/lib/db/schema';
 import useRefresh from '@/hooks/use-refresh';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useUser } from "@clerk/nextjs";
 
 
 
@@ -19,17 +18,14 @@ type formInput = {
   chakamName: string;
   chakamDescription: string;
 }
-type Props = {
-    userId: string;
-}
+
 const FileUpload = () => {
-    const { user } = useUser();
-    const userId = user?.id;
     const [uploading, setUploading] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
     const {register, handleSubmit, reset} = useForm<formInput>();
     const [file, setFile] = React.useState<File>(null!);
     const refetch = useRefresh();
+    console.log(progress)
 
     const mutation = useMutation({
       mutationFn: async (data: {

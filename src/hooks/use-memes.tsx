@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocalStorage } from 'usehooks-ts';
 import { DrizzleMeme } from '@/lib/db/schema';
@@ -17,7 +16,7 @@ export type UseMemesResult = {
 const useMemes = (): UseMemesResult => {
   const [memeId, setMemeId] = useLocalStorage<string>('memeId', '');
 
-   const { data: memes = [], refetch } = useQuery({
+   const { data: memes = [] } = useQuery({
     queryKey: ['get-memes'],
     queryFn: async () => {
       const res = await axios.get('api/chakam');
