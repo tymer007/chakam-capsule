@@ -7,10 +7,12 @@ import toast from 'react-hot-toast';
 import { Button } from './ui/button';
 import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
-import db from '@/lib/db';
-import { memes } from '@/lib/db/schema';
-import {v4 as uuid4} from 'uuid';
- import { useUser } from "@clerk/nextjs";
+import { DrizzleMeme } from '@/lib/db/schema';
+import useRefresh from '@/hooks/use-refresh';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useUser } from "@clerk/nextjs";
+
 
 
 type formInput = {
@@ -20,28 +22,50 @@ type formInput = {
 type Props = {
     userId: string;
 }
-const FileUpload = ({userId}:Props) => {
+const FileUpload = () => {
+    const { user } = useUser();
+    const userId = user?.id;
     const [uploading, setUploading] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
-     const {register, handleSubmit, reset} = useForm<formInput>();
+    const {register, handleSubmit, reset} = useForm<formInput>();
     const [file, setFile] = React.useState<File>(null!);
+    const refetch = useRefresh();
+
+    const mutation = useMutation({
+      mutationFn: async (data: {
+        file: string;
+        chakamName: string;
+        chakamDescription: string;
+      }) => {
+        const res = await axios.post('api/chakam', data);
+        return res.data as DrizzleMeme;
+// 
+      },
+      onSuccess: async() => {
+        console.log('Done');
+        await refetch();
+      }, onError: (error) => {
+        console.error(error);
+        toast.error('Something went wrong');
+      }
+    });
 
     
-      const onSubmit = async (data: formInput) => {
+      const onSubmit = async (formData: formInput) => {
         try {
-            if (!data || !file) return toast.error('Invalid inputs');
+            if (!formData || !file) return toast.error('Invalid inputs');
             setUploading(true);
             const uploadData = await uploadFile(file, (setProgress) );
-            
-            // await db.insert(memes).values({
-            //     id: uuid4(),
-            //     name:data.chakamName,
-            //     url:uploadData as string,
-            //     userId
-            // });
-            // console.log('uploadData', uploadData);
-            toast.success('File uploaded');
+            console.log('Upload data:',uploadData);
+             await mutation.mutateAsync({
+              file: uploadData as string,
+              chakamName: formData.chakamName,
+              chakamDescription: formData.chakamDescription,
+            });
             reset();
+            setFile(null!);
+            // await refetch();
+            toast.success('Chakam created');
             
         } catch (error) {
             console.error(error);
@@ -92,8 +116,9 @@ const FileUpload = ({userId}:Props) => {
          <div className='flex flex-col gap-2 w-fit mx-auto justify-center'>
             <div className="h-4"></div>
             <div>
-              <h1 className="text-4xl font-semibold text-center">
-                Create a new Chakam
+              <h1 className="text-3xl font-semibold text-center leading-36 tracking-tight text-gray-900
+               ">
+                Create a New Chakam
               </h1>
               <p className="mt-2 text-center text-sm text-muted-foreground">
                 Enter the details of your Chakam below. You can upload a file to
@@ -119,7 +144,7 @@ const FileUpload = ({userId}:Props) => {
                 <Button
                   type="submit"
                   className="w-full"
-                  // disabled={createProject.isPending || checkCredits.isPending || !hasEnoughCredits}
+                  disabled={uploading}
                 >
                   Create Chakam
                </Button>

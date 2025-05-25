@@ -5,6 +5,11 @@ import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from 'react-hot-toast';
+import {
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import QueryProvider from "@/components/Providers/queryProvider";
+
 
 export const viewport = {
   width: 'device-width',
@@ -64,7 +69,9 @@ export default function RootLayout({
           </ThemeProvider>
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          {children}
+          <QueryProvider>
+            {children}
+          </QueryProvider>
           <Toaster/>
         </body>
         <Analytics/>

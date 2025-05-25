@@ -13,20 +13,47 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import TweetCarousel from "../components/TweetCarousel";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { CameraIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
+  const {isSignedIn}  = useUser();
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-emerald-950 text-white px-4 py-8 md:px-12 lg:px-24">
       <header className="max-w-7xl mx-auto flex justify-between items-center py-4">
+        {/* Logo and Brand Name */}
+        <CameraIcon className="text-white w-50 h-10 animate-spin" />
         <div className="font-bold text-2xl font-vest text-primary">Chakam</div>
         <div className="flex gap-4">
-          <SignInButton component="button">Login</SignInButton>
-          <button className="bg-primary text-white px-4 py-2 rounded-md">
-            Register
-          </button>
+          { isSignedIn ? (
+            <>
+                <Button onClick={() => router.push('/dashboard') } className="bg-[#fff] text-primary px-4 py-2 rounded-md shadow-md border border-primary hover:bg-primary/90 hover:text-[#fff] transition-colors duration-200">
+                  Dashboard
+                </Button>
+            </>
+          )
+          :
+          (
+            <>
+              <SignInButton>
+                <Button className="bg-[#fff] text-primary/100 px-4 py-2 rounded-md hover:bg-primary/100 hover:text-[#fff]">Login</Button>
+              </SignInButton>
+              <SignInButton mode="modal">
+                <Button className="bg-primary text-[#fff] px-4 py-2 rounded-md shadow-md border border-primary hover:bg-primary/90 transition-colors duration-200">
+                  Register
+                </Button>
+              </SignInButton>
+            </>
+
+          )
+        }
+          
+          
         </div>
       </header>
       {/* Logo Section */}
@@ -34,20 +61,21 @@ export default function Home() {
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-24">
           <div className="lg:col-span-3">
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-2">
+            <h1 className="text-3xl md:text-7xl font-bold leading-tight mb-2 ">
               <div>Lock the Meme.</div>
               <div>Forget the Meme.</div>
               <div>Remember the Meme.</div>
             </h1>
 
-            <p className="text-emerald-400 text-xl mb-12">
+            <p className="text-emerald-300 text-md mb-10">
               Upload your screenshots, lock them for a year, and get a surprise
               email next year.
             </p>
 
-            <button className="bg-emerald-400 hover:bg-emerald-500 text-emerald-950 font-bold py-4 px-8 rounded-md text-xl uppercase">
+            <Button className="bg-emerald-400 hover:bg-emerald-500
+             text-emerald-900 font-bold py-4 px-8 rounded-md text-md uppercase w-fit">
               CREATE YOUR CAPSULE
-            </button>
+            </Button>
           </div>
 
           <div className="lg:col-span-2 flex justify-center items-center">
@@ -63,7 +91,7 @@ export default function Home() {
 
         {/* How It Works Section */}
         <div className="mb-24">
-          <h2 className="text-4xl font-bold mb-12">How it works</h2>
+          <h2 className=" text-2xl md:text-4xl font-bold mb-12">How it works</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex items-center">

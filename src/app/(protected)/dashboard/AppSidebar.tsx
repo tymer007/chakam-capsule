@@ -1,6 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
+import useMemes, { UseMemesResult } from '@/hooks/use-memes';
 import { cn } from '@/lib/utils';
 import { CameraIcon, CreditCardIcon, LayoutDashboard, Loader2, Plus, SparklesIcon, VaultIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -31,16 +32,14 @@ export const items = [
     icon: CreditCardIcon,
   },
 ];
-const memes  = [
-    {id: 1, name: "Meme 1"},
-    {id: 2, name: "Meme 2"},
-    {id: 3, name: "Meme 3"},
-]
+
 const AppSidebar = () => {
     const pathName = usePathname();
-    const [memeId, setMemeId] = React.useState<number>(1);
-      const { open } = useSidebar();
-
+    const { open } = useSidebar();
+    const { memes, memeId, setMemeId } = useMemes();
+    console.log('Memes:', memes);
+    // const { memes, memeId, setMemeId }: 
+    // { memes: UseMemesResult["memes"], memeId: string, setMemeId: (id: string) => void } = React.use(useMemes());
 
     
   return (
@@ -85,21 +84,21 @@ const AppSidebar = () => {
             <SidebarGroupContent>
               <SidebarMenu>
                 {memes ? (
-                  memes?.map((p, i) => (
+                  memes?.map((m, i) => (
                     <SidebarMenuItem key={i}>
                       <SidebarMenuButton asChild>
-                        <div onClick={() => setMemeId(p.id)}>
+                        <div onClick={() => setMemeId(m.id)}>
                           <div
                             className={cn(
                               "flex size-6 items-center justify-center rounded-sm border bg-[#fff] text-sm text-primary",
                               {
-                                "bg-primary text-[#fff]": memeId === p.id,
+                                "bg-primary text-[#fff]":  m.id === memeId,
                               },
                             )}
                           >
-                            {p.name[0]}
+                            {m.name[0]}
                           </div>
-                          <span>{p.name}</span>
+                          <span>{m.name}</span>
                         </div>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
