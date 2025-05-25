@@ -1,10 +1,9 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
-import useMemes, { UseMemesResult } from '@/hooks/use-memes';
+import useMemes from '@/hooks/use-memes';
 import { cn } from '@/lib/utils';
-import { CameraIcon, CreditCardIcon, LayoutDashboard, Loader2, Plus, SparklesIcon, VaultIcon } from 'lucide-react';
-import Image from 'next/image';
+import { CameraIcon, CreditCardIcon, LayoutDashboard, Loader2, SparklesIcon, VaultIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react'

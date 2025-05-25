@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { memes, users } from "@/lib/db/schema";
+import { memes } from "@/lib/db/schema";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { eq, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -16,7 +16,7 @@ export const POST = async(req: NextRequest) => {
 
   
     const body  = await req.json();
-    const { file, chakamName, chakamDescriptionData } = body;
+    const { file, chakamName } = body;
    const result = await db.insert(memes).values({
   id: uuid4(),
   name: chakamName,
@@ -28,7 +28,7 @@ return new Response(JSON.stringify(result), { status: 200 });
 
 }
 
-export const GET = async(req: NextRequest) => {
+export const GET = async() => {
     const {userId} = await auth();
     // if (!userId) {
     //     return new
