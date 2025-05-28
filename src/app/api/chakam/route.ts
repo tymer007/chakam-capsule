@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { memes } from "@/lib/db/schema";
+import { memes, userToMemes } from "@/lib/db/schema";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { eq, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -18,22 +18,28 @@ export const POST = async(req: NextRequest) => {
     const body  = await req.json();
     const { file, chakamName } = body;
    const result = await db.insert(memes).values({
-  id: uuid4(),
-  name: chakamName,
-  url: file as string,
-  userId
-}).returning();
-
+    id: uuid4(),
+    name: chakamName,
+    url: file as string,
+    userId
+   }).returning();
+   
+   await db.insert(userToMemes).values({
+    userId,
+    memeId: result[0].id,
+    id: uuid4(),
+   });
+   
 return new Response(JSON.stringify(result), { status: 200 });
 
 }
 
 export const GET = async() => {
     const {userId} = await auth();
-    // if (!userId) {
-    //     return new
-    //  Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
-    // }
+    if (!userId) {
+        return new
+     Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    }
     const data = await db.select().from(memes).where(
         and(
             eq(memes.userId, userId!),
@@ -41,11 +47,5 @@ export const GET = async() => {
         )
     );
     return new NextResponse(JSON.stringify(data), { status: 200 })
-    
-    // const data2 = await db.select().from(userToMemes).where(eq(userToMemes.userId, userId));
-
-    // if (!data || data.length === 0) 
-    //     return new 
-    //     Response(JSON.stringify({ error: "No chakam found" }), { status: 404 });
     
 }

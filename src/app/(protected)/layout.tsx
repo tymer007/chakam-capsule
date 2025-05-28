@@ -3,6 +3,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { UserButton } from '@clerk/nextjs'
 import React from 'react'
 import AppSidebar from './dashboard/AppSidebar'
+import { ModeToggle } from '@/components/ModeToggle'
 
 type Props = {
     children: React.ReactNode
@@ -11,7 +12,7 @@ type Props = {
 
 const SidebarLayout = ({children}: Props) => {
   return (
-    <div>
+    <div className=''>
         <SidebarProvider>
             {/* AppSidebar */}
             <AppSidebar/>
@@ -19,7 +20,8 @@ const SidebarLayout = ({children}: Props) => {
                 <div className="flex item-center gap-2 border-sidebar-border 
                 bg-sidebar border shadow rounded-md p-2 px-4">
                     {/* Search bar */}
-                    <div className="ml-auto">
+                    <div className="ml-auto gap-2 flex items-center">
+                        <ModeToggle/>
                         <UserButton/>
 
                     </div>

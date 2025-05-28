@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from 'react-hot-toast';
 import QueryProvider from "@/components/Providers/queryProvider";
+import { ThemeProvider } from "@/components/Providers/themeProvider";
 
 
 export const viewport = {
@@ -58,23 +58,26 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    {/* <ThemeProvider attribute="class"> */}
         <html lang="en">
         <head>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 
-          </ThemeProvider>
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
           <QueryProvider>
-            {children}
+            <ThemeProvider
+            attribute='class'
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
           </QueryProvider>
           <Toaster/>
         </body>
         <Analytics/>
       </html>
 
-    {/* </ThemeProvider> */}
 
     </ClerkProvider>
    

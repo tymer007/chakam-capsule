@@ -1,4 +1,4 @@
-import {  pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
+import {  pgTable, varchar, timestamp, integer } from "drizzle-orm/pg-core";
 
 export const userToMemes = pgTable("user_to_memes", {
   id: varchar('id', { length: 256 }).primaryKey(),
@@ -15,6 +15,7 @@ export const users = pgTable("users", {
   lastName: varchar({ length: 255 }).notNull(),
   imageUrl: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
+  credits: integer('credits').notNull().default(150),
   userToMemes: varchar('user_to_memes').references(() => userToMemes.id),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
@@ -29,4 +30,13 @@ export const memes = pgTable("memes", {
     unlockAt: timestamp('unlock_at', {withTimezone:true}).notNull().defaultNow(),
     deletedAt: timestamp('deleted_at', {withTimezone:true}),
     userToMemes: varchar('user_to_memes').references(() => userToMemes.id)
-})
+});
+
+export const userSubscriptions = pgTable('user_subscriptions', {
+    id: varchar('id', {length:256}).primaryKey(),
+    userId: varchar('user_id', {length:256}).notNull(),
+    stripeCustomerId: varchar('stripe_customer_id', {length:256}).notNull().unique(),
+    stripeSubscriptionId: varchar('stripe_subscription_id', {length:256}).unique(),
+    stripePriceId: varchar('stripe_price_id', {length:256}),
+    credits: integer('credits').notNull().default(0),
+});

@@ -45,10 +45,9 @@ const AppSidebar = () => {
     <Sidebar collapsible='icon' variant='floating' >
         <SidebarHeader>
             <div className="flex items-center gap-2">
-                {/* <Image src="/images/up-left.png" alt="logo" width={40} height={50} /> */}
-                <CameraIcon className='text-primary animate-spin'/>
+                <CameraIcon className="text-primary animate-spin dark:text-[#fff]" />
                 {open && (
-                <h1 className="text-xl font-bold text-primary/80">Chakam</h1>
+                <h1 className="text-xl font-bold text-primary/80 dark:text-[#fff]">Chakam</h1>
                 )}
             </div>
         </SidebarHeader>

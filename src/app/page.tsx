@@ -1,5 +1,4 @@
 "use client";
-import { useTheme } from "next-themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileArrowUp,
@@ -19,7 +18,6 @@ import { CameraIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { theme, setTheme } = useTheme();
   const {isSignedIn}  = useUser();
   const router = useRouter();
 
@@ -193,13 +191,7 @@ export default function Home() {
           <div className="text-sm text-gray-300">
             © 2024 Chakam Capsule. All memes reserved.
             <br />
-            <button
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              className="text-gray-300 hover:text-emerald-400 transition duration-300 ease-in-out"
-            >
-              {" "}
-              Switch to {theme === "light" ? "dark" : "light"} mode{" "}
-            </button>
+           
           </div>
         </div>
       </footer>

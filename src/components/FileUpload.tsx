@@ -11,6 +11,7 @@ import { DrizzleMeme } from '@/lib/db/schema';
 import useRefresh from '@/hooks/use-refresh';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import useCredits from '@/hooks/use-credits';
 
 
 
@@ -25,6 +26,8 @@ const FileUpload = () => {
     const {register, handleSubmit, reset} = useForm<formInput>();
     const [file, setFile] = React.useState<File>(null!);
     const refetch = useRefresh();
+    const cost = 5;
+    const {credits} = useCredits();
     console.log(progress)
 
     const mutation = useMutation({
@@ -51,6 +54,7 @@ const FileUpload = () => {
         try {
             if (!formData || !file) return toast.error('Invalid inputs');
             setUploading(true);
+            if (credits < cost) return toast.error('Credits too low');
             const uploadData = await uploadFile(file, (setProgress) );
             console.log('Upload data:',uploadData);
              await mutation.mutateAsync({
@@ -85,7 +89,7 @@ const FileUpload = () => {
         }
     })
   return (
-    <div className='p-2 bg-[#fff] rounded-xl w-full'>
+    <div className='p-2 bg-[#fff] rounded-xl w-full dark:bg-gray-50'>
         <div {...getRootProps({
             className:'border border-2 border-gray-30 p-4 rounded-xl cursor-pointer py-8 flex justify-center items-center flex-col',
         })}>
@@ -136,10 +140,10 @@ const FileUpload = () => {
                   type="text"
                   required
                 />
-                <div className="h-2"></div>
+                <div className="h-4"></div>
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full dark:text-[#fff]"
                   disabled={uploading}
                 >
                   Create Chakam
@@ -152,4 +156,4 @@ const FileUpload = () => {
   )
 }
 
-export default FileUpload
+export default FileUpload;
