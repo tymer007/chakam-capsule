@@ -36,7 +36,6 @@ const AppSidebar = () => {
     const pathName = usePathname();
     const { open } = useSidebar();
     const { memes, memeId, setMemeId } = useMemes();
-    console.log('Memes:', memes);
     // const { memes, memeId, setMemeId }: 
     // { memes: UseMemesResult["memes"], memeId: string, setMemeId: (id: string) => void } = React.use(useMemes());
 

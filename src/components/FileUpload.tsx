@@ -28,8 +28,6 @@ const FileUpload = () => {
     const refetch = useRefresh();
     const cost = 5;
     const {credits} = useCredits();
-    console.log(progress)
-
     const mutation = useMutation({
       mutationFn: async (data: {
         file: string;

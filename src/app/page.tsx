@@ -39,10 +39,10 @@ export default function Home() {
           (
             <>
               <SignInButton>
-                <Button className="bg-[#fff] text-primary/100 px-4 py-2 rounded-md hover:bg-primary/100 hover:text-[#fff]">Login</Button>
+                <Button className="bg-[#fff] dark:bg-primary dark:text-[#fff] text-primary/100 px-4 py-2 rounded-md hover:bg-primary/100 hover:text-[#fff]">Login</Button>
               </SignInButton>
               <SignInButton mode="modal">
-                <Button className="bg-primary text-[#fff] px-4 py-2 rounded-md shadow-md border border-primary hover:bg-primary/90 transition-colors duration-200">
+                <Button className="bg-primary dark:bg-[#fff] dark:text-primary text-[#fff] px-4 py-2 rounded-md shadow-md border border-primary hover:bg-primary/90 transition-colors duration-200">
                   Register
                 </Button>
               </SignInButton>

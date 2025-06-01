@@ -5,7 +5,11 @@ import { eq, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuid4 } from "uuid";
+import { Resend } from 'resend';
+import ChakamCreatedEmail from "@/components/ChakamCreatedEmail";
 
+const resend = new Resend(process.env.RESEND_API_KEY as string);
+console.log("Resend API Key:", process.env.RESEND_API_KEY);
 export const POST = async(req: NextRequest) => {
     const { userId } = await auth();
     if (!userId) 
@@ -15,8 +19,8 @@ export const POST = async(req: NextRequest) => {
     if(!user.emailAddresses[0].emailAddress) return notFound();
 
   
-    const body  = await req.json();
-    const { file, chakamName } = body;
+   const body  = await req.json();
+   const { file, chakamName } = body;
    const result = await db.insert(memes).values({
     id: uuid4(),
     name: chakamName,
@@ -29,6 +33,23 @@ export const POST = async(req: NextRequest) => {
     memeId: result[0].id,
     id: uuid4(),
    });
+   try {
+    const mail = await resend.emails.send({
+        from: 'supports@chakam.com.ng',
+        to: user.emailAddresses[0].emailAddress.toString(),
+        subject: 'Chakam Meme Created',
+        react: ChakamCreatedEmail({})
+     });
+     console.log("Mail sent:", mail.data);
+     console.log(mail.error)
+     console.log("Email sent successfully");
+   } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email");
+   }
+  
+   
+
    
 return new Response(JSON.stringify(result), { status: 200 });
 

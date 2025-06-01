@@ -1,5 +1,6 @@
 "use client";
 
+import ChakamCreatedEmail from "@/components/ChakamCreatedEmail";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import useCredits from "@/hooks/use-credits";
@@ -15,7 +16,6 @@ const Billing = () => {
     const creditsToBuYAmount = creditsToBuy[0]!;
     const price = (creditsToBuYAmount / 50).toFixed(2);
     const {credits} = useCredits();
-    console.log('credits', credits);
 
   return (
 
@@ -49,7 +49,7 @@ const Billing = () => {
       >
         Buy {creditsToBuYAmount} credits for ${price}
       </Button>
-        
+   
     </div>
   )
 }
