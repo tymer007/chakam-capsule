@@ -9,7 +9,7 @@ import { Resend } from 'resend';
 import ChakamCreatedEmail from "@/components/ChakamCreatedEmail";
 
 const resend = new Resend(process.env.RESEND_API_KEY as string);
-console.log("Resend API Key:", process.env.RESEND_API_KEY);
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 export const POST = async(req: NextRequest) => {
     const { userId } = await auth();
     if (!userId) 
@@ -38,7 +38,9 @@ export const POST = async(req: NextRequest) => {
         from: 'supports@chakam.com.ng',
         to: user.emailAddresses[0].emailAddress.toString(),
         subject: 'Chakam Meme Created',
-        react: ChakamCreatedEmail({})
+        react: ChakamCreatedEmail({
+            baseUrl: baseUrl!,
+        })
      });
      console.log("Mail sent:", mail.data);
      console.log(mail.error)

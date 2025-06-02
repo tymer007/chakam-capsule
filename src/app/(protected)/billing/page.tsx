@@ -6,7 +6,6 @@ import { Slider } from "@/components/ui/slider";
 import useCredits from "@/hooks/use-credits";
 import { createCheckoutSession } from "@/lib/stripe";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { InfoIcon } from "lucide-react";
 import React from "react";
 
