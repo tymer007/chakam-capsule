@@ -92,7 +92,7 @@ export default function TweetCarousel() {
 
         <div
           ref={containerRef}
-          className="no-scrollbar w-full max-w-7xl overflow-x-auto flex items-center whitespace-nowrap scroll-smooth"
+          className="no-scrollbar w-full max-w-7xl overflow-x-auto flex items-center whitespace-nowrap scroll-smooth rounded-xl"
           style={{ scrollSnapType: "x mandatory", height: "600px" }}
         >
           {tweetIds.map((id) => (
