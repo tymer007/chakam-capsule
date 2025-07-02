@@ -18,6 +18,7 @@ import TweetCarousel from "../components/TweetCarousel";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import './globals.css';
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -398,19 +399,20 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-primary text-white py-12 -mx-4 md:-mx-8 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 text-center md:text-left">
+
           {/* Logo and brand name */}
-          <div>
+          <div className="flex justify-center md:justify-start">
             <Image src="/chakam-white.png" alt="logo" width={125} height={125} />
           </div>
 
           {/* Copyright text */}
-          <div className="text-sm text-emerald-500 text-center font-bold">
+          <div className="text-sm text-emerald-500 font-bold">
             © 2024 Chakam, All memes reserved.
           </div>
 
           {/* Social media icons */}
-          <div className="flex space-x-6 mb-4 md:mb-0">
+          <div className="flex justify-center md:justify-end space-x-6">
             <a
               href="#"
               className="text-emerald-500 hover:text-emerald-400 transition-colors duration-200"
@@ -434,8 +436,7 @@ export default function Home() {
               className="text-emerald-500 hover:text-emerald-400"
             >
               <span
-                className={`transition-transform ${isSpinning ? "animate-spin" : ""
-                  }`}
+                className={`transition-transform ${isSpinning ? "animate-spin" : ""}`}
               >
                 {theme === "light" ? (
                   <Sun className="w-5 h-5" />
@@ -447,6 +448,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
     </main>
   );
 }
